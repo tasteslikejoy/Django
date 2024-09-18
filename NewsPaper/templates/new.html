@@ -1,0 +1,16 @@
+{% extends 'flatpages/default.html' %}
+{% load custom_tags %}
+{% load custom_filters %}
+
+
+{% block title %}
+News
+{% endblock title %}
+
+
+{% block content %}
+<h3>{{ new.title_post }}</h3>
+<h3>{{ new.post_choice }}</h3>
+<h4>{{ new.text_post|censor_start }}</h4>
+<a>{{ new.add_post|date:'d M Y' }}</a>
+{% endblock content %}

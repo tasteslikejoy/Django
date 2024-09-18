@@ -1,0 +1,103 @@
+#Создать двух пользователей (с помощью метода User.objects.create_user('username')).
+#Все атрибуты любой модели можно посмотреть в БД. Названия столбцов и будут атрибутами.
+#Все отступы в циклах прописываются вручную.
+
+from django.contrib.auth.models import User
+
+user=User.objects.create_user(username='...', password='...') 
+user.save()
+
+
+#Создать два объекта модели Author, связанные с пользователями.
+
+from django.contrib.auth.models import User
+from news.models import Author
+
+user=User.objects.get(pk='...')
+
+author=Author.objects.create(user_one_to_one=user)
+author.save()
+
+
+#Добавить 4 категории в модель Category.
+
+from news.models import Category
+
+category=Category(name_category='...')
+category.save()
+
+
+#Добавить 2 статьи и 1 новость.
+
+from news.models import Post, Author
+
+author=Author.objects.get(pk='...')
+
+post=Post.objects.create(title_post='...', text_post='...', author_one_to_many=author)
+post.save()
+
+
+#Присвоить им категории (как минимум в одной статье/новости должно быть не меньше 2 категорий).
+
+from news.models import Category, Post
+
+post=Post.objects.get(pk='...')
+category=Category.objects.get(pk='...')
+
+post.category_many_to_many.add(category)
+post.save()
+
+
+#Создать как минимум 4 комментария к разным объектам модели Post (в каждом объекте должен быть как минимум один комментарий).
+
+from django.contrib.auth.models import User
+from news.models import Comment, Post
+
+user=User.objects.get(pk='...')
+post=Post.objects.get(pk='...')
+
+comment=Comment.objects.create(comment_text='...', post_one_to_many=post, user_one_to_many=user)
+comment.save()
+
+
+#Применяя функции like() и dislike() к статьям/новостям и комментариям, скорректировать рейтинги этих объектов.
+
+from news.models import Comment, Post
+
+post=Post.objects.get(pk='...')
+post.like()
+
+comment=Comment.objects.get(pk='...')
+comment.like()
+
+
+#Обновить рейтинги пользователей.
+
+from news.models import Author
+
+author=Author.objects.get(pk='...')
+author.update_rating()
+
+
+#Вывести username и рейтинг лучшего пользователя (применяя сортировку и возвращая поля первого объекта).
+
+from news.models import Author
+
+best_author=Author.objects.order_by('-rating_author').values('user_one_to_one.username', 'rating_author').first()
+print(best_author)
+
+
+#Вывести дату добавления, username автора, рейтинг, заголовок и превью лучшей статьи, основываясь на лайках/дислайках к этой статье.
+
+from news.models import Post
+
+best_post = Post.objects.order_by('-rating_post').first()
+print(best_post.add_post, best_post.author_one_to_many.user_one_to_one.username, best_post.rating_post, best_post.title_post, best_post.preview) 
+
+
+#Вывести все комментарии (дата, пользователь, рейтинг, текст) к этой статье.
+#Если действие выполняется отдельно, то необходимо выполнить действия из предыдущего пункта, 
+#а так же не забыть импортировать все необходимые модели Post, Comment
+
+for comment in best_post.comments_set.all():
+	print(f'Comment: \nDate: {comment.comment_datatime.strftime('%Y-%m-%d %H:%M:%S')}, \nAuthor: {comment.user_one_to_many.username}, \nRating: {comment.rating_comment}, \nText: {comment.comment_text}')
