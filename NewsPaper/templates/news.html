@@ -18,7 +18,6 @@ News
                 <td>Новость/Пост</td>
                 <td>Рейтинг</td>
                 <td>Дата</td>
-<!--                <td>Автор</td>-->
             </tr>
             {% for new in news %}
             <tr>
@@ -27,7 +26,6 @@ News
                 <td>{{ new.post_choice }}</td>
                 <td>{{ new.rating_post }}</td>
                 <td>{{ new.add_post|date:'d M Y' }}</td>
-                <td>{{ new.user.username }}</td>
             </tr>
             {% endfor %}
         </table>
@@ -36,6 +34,7 @@ News
     {% endif %}
 
     {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}">Предыдущая</a>
         <a href="?{% url_replace page=1 %}">1</a>
         {% if page_obj.previous_page_number != 1 %}
         ...
@@ -50,11 +49,9 @@ News
         {% if paginator.num_pages != page_ob.next_page_number %}
             ...
             <a href="?{% url_replace page=page_obj.paginator.num_pages %}">{{ page_obj.paginator.num_pages }}</a>
+            <a href="?page={{ page_obj.next_page_number }}">Следующая</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}">Последняя</a>
         {% endif %}
     {% endif %}
-<p>
-    <a href="post/create/">Создать пост</a>
-    <a href="news/create/">Создать новость</a>
-</p>
 
 {% endblock content %}

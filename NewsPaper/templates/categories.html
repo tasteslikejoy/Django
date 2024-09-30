@@ -6,12 +6,16 @@ Categories
 {% endblock title %}
 
 {% block content %}
+
 <h1>Категории</h1>
-    {% if categories %}
-        {% for category in categories %}
-            {{ category.name_category }}
-        {% endfor %}
-    {% else %}
-        <h2>Катагорий нет</h2>
-    {% endif %}
+
+<table>
+{% for category in categories %}
+<!--    Сделать страницу с категорией и всеми ее новостями-->
+    <li><h2><a href="{% url 'appointment_form:categorydetail' category.id %}">{{ category.name_category }}</a></h2></li>
+{% empty %}
+    <li>Нет доступных категорий.</li>
+{% endfor %}
+</table>
+
 {% endblock content %}

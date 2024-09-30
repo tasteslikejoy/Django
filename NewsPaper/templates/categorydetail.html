@@ -1,0 +1,24 @@
+{% extends 'flatpages/default.html' %}
+
+
+{% block title %}
+Categories
+{% endblock title %}
+
+{% block content %}
+{% csrf_token %}
+
+<h1>Новости категории</h1>
+
+<table>
+{% for news in news_list %}
+    <li>{{ news.title_post }}</li>
+    <li>{{ news.text_post }}</li>
+{% empty %}
+    <li>Нет доступных новостей.</li>
+{% endfor %}
+</table>
+
+<button><a href="{% url 'appointment_form:subscribe' category.id %}">Подписаться</a> </button>
+
+{% endblock content %}

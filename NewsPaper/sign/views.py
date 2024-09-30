@@ -4,13 +4,14 @@ from .models import BaseRegisterForm
 from django.shortcuts import redirect
 from django.contrib.auth.models import Group
 from django.contrib.auth.decorators import login_required
-from ..news.models import Author
+from news.models import Author
 
 
 class BaseRegisterView(CreateView):
     model = User
     form_class = BaseRegisterForm
     success_url = '/'
+
 
 @login_required
 def upgrade_me(request):

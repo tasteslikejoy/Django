@@ -6,10 +6,10 @@ PostEdit
 
 {% block content %}
 <h1>Создать</h1>
-<hr>
+
 <form action="" method="POST">
     {% csrf_token %}
     {{ form.as_p }}
-    <input type="submit" value="Save">
+    <input type="submit" value="Сохранить">
 </form>
 {% endblock content %}

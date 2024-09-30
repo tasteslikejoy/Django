@@ -1,0 +1,22 @@
+{% extends 'flatpages/default.html' %}
+{% load custom_filters %}
+
+{% block title %}
+Form
+{% endblock title %}
+
+{% block content %}
+<h1>Форма</h1>
+
+<form action="{% url 'appointment_form:appointment_form' %}" method="POST"
+      enctype="multipart/form-data">
+    {% csrf_token %}
+    <label for="appointment_name">Имя</label>
+    <input type="text" name="appointment_name"><br>
+    <label for="appointment_message">Сообщение</label>
+    <input type="text" name="appointment_message"><br>
+    <label for="appointment_date">Дата</label>
+    <input type="date" name="appointment_date">.<br>
+    <input type="submit">
+</form>
+{% endblock content %}

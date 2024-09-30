@@ -13,4 +13,11 @@ News
 <h3>{{ new.post_choice }}</h3>
 <h4>{{ new.text_post|censor_start }}</h4>
 <a>{{ new.add_post|date:'d M Y' }}</a>
+{% if category_name %}
+    {% for c in category_name %}
+        <li>{{ c.name_category }}</li>
+    {% endfor %}
+{% else %}
+<p>Категорий нет</p>
+{% endif %}
 {% endblock content %}

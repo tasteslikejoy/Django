@@ -1,5 +1,20 @@
 {% extends 'flatpages/default.html' %}
+{% load custom_tags %}
+{% load custom_filters %}
 
 {% block title %}
 Home
 {% endblock title %}
+
+{% block content %}
+
+{% if news %}
+        <h3>{{ random_news.title_post|censor_start }}</h3>
+        <p>{{ random_news.text_post|censor_start }}</p>
+{% else %}
+    <p>Новостей нет!</p>
+{% endif %}
+
+<button onclick="window.location.reload();">Другая новость</button>
+
+{% endblock %}

@@ -9,12 +9,14 @@ Search
 
 
 {% block content %}
+
 <h1>Поиск</h1>
+
     <form action="" method="get">
         {{ filterset.form.as_p }}
-        <input type="submit" value="Search">
+        <input type="submit" value="Поиск">
     </form>
-<hr>
+
 {% if has_results %}
     {% if news %}
         <table>

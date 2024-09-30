@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.db import models
 from django.contrib.auth.models import User
 from django.urls import reverse
@@ -22,10 +23,15 @@ class Author(models.Model):
 
 class Category(models.Model):
     name_category = models.CharField(max_length=50, unique=True)
-
+    subscribers = models.ManyToManyField(User, blank=True, related_name='categories')
 
     def __str__(self):
         return f'{self.name_category}'
+
+
+class CategoryUser(models.Model):
+    user_one_to_many = models.ForeignKey(User, on_delete=models.CASCADE)
+    category_one_to_many = models.ForeignKey(Category, on_delete=models.CASCADE)
 
 
 class Post(models.Model):
@@ -38,6 +44,7 @@ class Post(models.Model):
         ('post', 'post'),
         ('news', 'news')
     ]
+
     post_choice = models.CharField(choices=post_choice_type, max_length=10)
 
     author_one_to_many = models.ForeignKey(Author, on_delete=models.CASCADE)
@@ -87,3 +94,12 @@ class Comment(models.Model):
 
     def __str__(self):
         return f'{self.comment_text}+{self.comment_datatime}+{self.rating_comment}'
+
+
+class Appointment(models.Model):
+    appointment_date = models.DateTimeField(auto_now_add=True)
+    appointment_name = models.CharField(max_length=100)
+    appointment_message = models.TextField()
+
+    def __str__(self):
+        return f'{self.appointment_name}: {self.appointment_message}'

@@ -1,8 +1,6 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>{% block head_title %}{% endblock head_title %}</title>
-    </head>
+{% extends 'flatpages/default.html' %}
+
+{% block content %}
     <body>
         {% block body %}
         {% block content %}
@@ -11,4 +9,4 @@
         {% block extra_body %}
         {% endblock extra_body %}
     </body>
-</html>
+{% endblock content %}
