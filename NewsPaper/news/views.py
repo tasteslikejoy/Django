@@ -2,7 +2,7 @@ import random
 
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
-from django.shortcuts import render, reverse, redirect
+from django.shortcuts import render, reverse, redirect, get_object_or_404
 from django.template.loader import render_to_string
 from django.urls import reverse_lazy
 from django.views import View
@@ -207,10 +207,15 @@ class NewsPostRandom(ListView):
 @login_required
 def add_subscribers(request, pk):
     user = request.user
-    category = Category.objects.get(id=pk)
-    category.subscribers.add(user)
-    message = 'Вы подписались на рассылку новостей!'
-    return render(request, 'subscribe.html', {'category': category, 'message': message} )
+    category = get_object_or_404(Category, id=pk)
+
+    if user in category.subscribers.all():
+        message = 'Вы уже подписаны на эту категорию.'
+    else:
+        category.subscribers.add(user)
+        message = 'Вы подписались на рассылку новостей!'
+
+    return render(request, 'subscribe.html', {'category': category, 'message': message})
 
 
 

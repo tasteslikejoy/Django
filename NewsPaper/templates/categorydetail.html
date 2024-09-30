@@ -6,7 +6,6 @@ Categories
 {% endblock title %}
 
 {% block content %}
-{% csrf_token %}
 
 <h1>Новости категории</h1>
 
@@ -19,6 +18,6 @@ Categories
 {% endfor %}
 </table>
 
-<button><a href="{% url 'appointment_form:subscribe' category.id %}">Подписаться</a> </button>
+<button><a href="{% url 'appointment_form:subscribe' category.id %}">Подписаться</a></button>
 
 {% endblock content %}

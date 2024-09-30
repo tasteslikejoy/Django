@@ -17,5 +17,5 @@ urlpatterns = [
     path('categories/', CategoryList.as_view(), name='category_list'),
     path('inc/', NewsPostRandom.as_view(), name='random'),
     path('categorydetail/<int:pk>', CategoryDetail.as_view(), name='categorydetail'),
-    path('categorydetail/<int:pk>/subscribe', add_subscribers, name='subscribe'),
+    path('categorydetail/<int:pk>/subscribe/', add_subscribers, name='subscribe'),
 ]
