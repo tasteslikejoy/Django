@@ -102,13 +102,13 @@ class PostUpdate(PermissionRequiredMixin, UpdateView):
     form_class = PostForm
     model = Post
     template_name = 'post_update.html'
-
+    permission_required = ('news.add_post',)
 
 class PostDelete(PermissionRequiredMixin, DeleteView):
     model = Post
     template_name = 'post_delete.html'
     success_url = reverse_lazy('post_list')
-
+    permission_required = ('news.add_post',)
 
 class PostSearch(ListView):
     model = Post
@@ -210,10 +210,10 @@ def add_subscribers(request, pk):
     category = get_object_or_404(Category, id=pk)
 
     if user in category.subscribers.all():
-        message = 'Вы уже подписаны на эту категорию.'
+        message = 'Вы уже подписаны на эту категорию: '
     else:
         category.subscribers.add(user)
-        message = 'Вы подписались на рассылку новостей!'
+        message = 'Вы подписались на рассылку новостей: '
 
     return render(request, 'subscribe.html', {'category': category, 'message': message})
 
