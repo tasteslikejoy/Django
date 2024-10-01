@@ -1,7 +1,6 @@
 import datetime
 import logging
 from datetime import timezone, timedelta
-
 from django.conf import settings
 from apscheduler.schedulers.blocking import BlockingScheduler
 from apscheduler.triggers.cron import CronTrigger
@@ -13,27 +12,31 @@ from django.core.mail import send_mail, EmailMultiAlternatives
 from news.models import Category, Post
 
 
+
 logger = logging.getLogger(__name__)
 
 
 def my_job():
-    send_mail(
-        'Job mail',
-        'hello from job!',
-        from_email='alisa2196@mail.ru',
-        recipient_list=['ru00012r@gmail.com'],
-    )
+    # send_mail(
+    #     'Job mail',
+    #     'hello from job!',
+    #     from_email='alisa2196@mail.ru',
+    #     recipient_list=['ru00012r@gmail.com'],
+    # )
 
     today = datetime.datetime.now()
     time_mail = today - datetime.timedelta(days=7)
 
     post = Post.objects.filter(add_post__gte=time_mail)
-
-    categories = Category.objects.values_list('name_category')
-    # subscribers = Category.objects.filter().values() # подписчики
+    categories = list(Category.objects.values('name_category'))
+    subscribers = list(Category.objects.filter(subscribers__in=categories).values_list('subscribers__email')) # related_name
 
     html_content = render_to_string(
-        'dailynews.html'
+        'dailynews.html',
+        {
+            'post':post,
+            'link':settings.SITE_ID,
+         }
     )
 
     msg = EmailMultiAlternatives(
@@ -62,9 +65,10 @@ class Command(BaseCommand):
         # добавляем работу нашему задачнику
         scheduler.add_job(
             my_job,
-            trigger=CronTrigger(
-                day_of_week="sat", hour="10", minute="00"
-            ),
+            trigger=CronTrigger(second="*/10"),
+            # trigger=CronTrigger(
+            #     day_of_week="sat", hour="10", minute="00"
+            # ),
             id = "my_job",
             max_instances = 1,
             replace_existing = True,
