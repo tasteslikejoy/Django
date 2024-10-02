@@ -14,7 +14,3 @@ def register_user(created, instance, **kwargs):
         recipient_list = [instance.email]
 
         send_mail(subject, message, from_email, recipient_list)
-
-
-# @receiver(m2m_changed, sender=CategoryUser)
-# @receiver(m2m_changed, sender=PostCategory)

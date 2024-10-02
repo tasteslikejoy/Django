@@ -2,9 +2,20 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Еженедельная рассылка.</title>
 </head>
 <body>
-
+    <h2>Новости за последнюю неделю: </h2>
+    <li>
+        {% for category in categories %}
+            <a>{{ category }}</a>
+            {% for p in post %}
+                {% if categgory in post.category_many_to_many.values_list('name_category', flat=True %}
+                    <a href="{{ link }}{{ p.get_absolute_url }}">{{ p.title_post }}</a>
+                    <p>{{ p.text_post|truncatechars:20 }}</p>
+                {% endif %}
+            {% endfor %}
+        {% endfor %}
+    </li>
 </body>
 </html>
