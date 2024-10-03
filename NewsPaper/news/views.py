@@ -4,9 +4,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, reverse, redirect, get_object_or_404
 from django.template.loader import render_to_string
 from django.urls import reverse_lazy
-from django.views import View
-from django.core.mail import send_mail, EmailMultiAlternatives, mail_admins
-from datetime import datetime
+from django.core.mail import EmailMultiAlternatives
 from django.views.generic import (
     ListView, DetailView, CreateView, UpdateView, DeleteView
 )
@@ -14,7 +12,8 @@ from django.contrib.auth.mixins import PermissionRequiredMixin
 from .filters import *
 from .forms import *
 from .models import *
-
+from django.http import HttpResponse
+from django.views import View
 
 
 class CategoryList(ListView):
